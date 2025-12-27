@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}All Books{% endblock %}
+{% block content %}
+<h1>All Books</h1>
+{% if user.is_staff %}
+<a href="{% url 'add_book' %}" class="btn btn-success">Add New Book</a>
+{% endif %}
+{% for book in books %}
+<div class="book">
+    <h3>{{ book.title }}</h3>
+    <p>Author: {{ book.author }}</p>
+    <p>ISBN: {{ book.isbn }}</p>
+    <p class="{% if book.available %}available{% else %}unavailable{% endif %}">
+        Available: {% if book.available %}Yes{% else %}No{% endif %}
+    </p>
+    <a href="{% url 'book_detail' book.pk %}" class="btn btn-primary">View Details</a>
+</div>
+{% empty %}
+<p>No books found.</p>
+{% endfor %}
+{% endblock %}

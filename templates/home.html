@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Home - Library{% endblock %}
+{% block content %}
+<h1>Welcome to Simple Library</h1>
+<p>Manage your books easily with our simple system.</p>
+
+<h2>Available Books</h2>
+{% for book in books %}
+<div class="book">
+    <h3>{{ book.title }}</h3>
+    <p>Author: {{ book.author }}</p>
+    <p>ISBN: {{ book.isbn }}</p>
+    <p class="available">Available: Yes</p>
+    <a href="{% url 'book_detail' book.pk %}" class="btn btn-primary">View Details</a>
+</div>
+{% empty %}
+<p>No books available at the moment.</p>
+{% endfor %}
+<a href="{% url 'book_list' %}" class="btn btn-primary">View All Books</a>
+{% endblock %}

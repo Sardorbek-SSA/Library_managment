@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %}{{ book.title }}{% endblock %}
+{% block content %}
+<h1>{{ book.title }}</h1>
+<p><strong>Author:</strong> {{ book.author }}</p>
+<p><strong>ISBN:</strong> {{ book.isbn }}</p>
+<p><strong>Status:</strong> 
+    <span class="{% if book.available %}available{% else %}unavailable{% endif %}">
+        {% if book.available %}Available{% else %}Not Available{% endif %}
+    </span>
+</p>
+{% if user.is_authenticated %}
+    {% if book.available %}
+        <form method="post" action="{% url 'borrow_book' book.pk %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-success">Borrow This Book</button>
+        </form>
+    {% else %}
+        <p class="unavailable">This book is currently not available for borrowing.</p>
+    {% endif %}
+{% else %}
+    <p>Please <a href="{% url 'login' %}">login</a> to borrow this book.</p>
+{% endif %}
+<a href="{% url 'book_list' %}" class="btn btn-primary">Back to Books</a>
+{% endblock %}
